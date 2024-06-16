@@ -6,7 +6,7 @@
 # Run this script in an empty directory
 # If an error occurs, fix the error, delete the folder, and re-run this script
 # Watch out for leftover hidden files
-# This scripts downloads from https://github.com/Yan2arb4/Django-React-project/tree/main
+# This scripts downloads from https://github.com/Yan2arb4/Django-React-project/tree/template
 
 set -euo pipefail
 
@@ -43,12 +43,12 @@ else
 fi
 
 # Download and install requirements
-curl -o requirements.txt https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/requirements.txt
+curl -o requirements.txt https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/requirements.txt
 pip install -r requirements.txt
 
 # Download .gitignore
 
-curl -o ../../.gitignore https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/.gitignore
+curl -o ../../.gitignore https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/.gitignore
 
 # Create Django project and apps
 django-admin startproject "$APPNAME"
@@ -58,7 +58,7 @@ django-admin startapp frontend
 
 # Setup frontend
 cd frontend #All lines under happen from this folder
-curl -o package.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/package.json
+curl -o package.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/package.json
 npm install
 
 # Install typescript
@@ -66,20 +66,20 @@ npm install typescript @types/react @types/react-dom @babel/preset-typescript --
 npm install ts-loader --save-dev
 
 # Create tsconfig.json for TypeScript configuration
-curl -o tsconfig.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/tsconfig.json
+curl -o tsconfig.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/tsconfig.json
 
 # Add webpack config
-curl -o webpack.config.js https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/webpack.config.js
+curl -o webpack.config.js https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/webpack.config.js
 
 # Setup urls.py files in both api and frontends apps
 touch urls.py
 touch ../api/urls.py
 
-curl -o babel.config.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/babel.config.json
+curl -o babel.config.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/babel.config.json
 
 # Setup Templates 
 mkdir -p templates/frontend
-curl -o ./templates/frontend/index.html https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/templates/frontend/index.html
+curl -o ./templates/frontend/index.html https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/templates/frontend/index.html
 
 # Setup static with children
 mkdir -p static/css static/frontend
@@ -87,10 +87,8 @@ touch static/css/index.css
 
 # Setup src with components and placeholder component
 mkdir -p src/components
-touch src/components/App.tsx
-
-echo 'import App from "./components/App";' > src/index.tsx
-#curl -o src/index.tsx 
+curl -o src/components/App.tsx https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/src/components/App.tsx
+curl -o src/index.tsx  https://raw.githubusercontent.com/Yan2arb4/Django-React-project/template/React-Django/Tutorial/music_controller/frontend/src/index.tsx
 
 echo "Project setup completed successfully."
 read -p "Press any key to continue..."

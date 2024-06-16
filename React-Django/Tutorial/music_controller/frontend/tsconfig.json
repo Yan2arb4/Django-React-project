@@ -23,7 +23,9 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "webpack.config.js",      // Exclude webpack.config.js
+    "src/index.js"            // Exclude non-existent index.js
   ],
   "types": [
     "typePatches"
