@@ -1,6 +1,6 @@
 # Node
 .node
-node_modules/
+**/node_modules/
 __pycache__/
 
 # Django #
