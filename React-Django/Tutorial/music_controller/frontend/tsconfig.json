@@ -25,7 +25,8 @@
     "jest",
     "src/setupTests.ts",
     "webpack.config.js",      // Exclude webpack.config.js
-    "src/index.js"            // Exclude non-existent index.js
+    "src/index.js" ,           // Exclude non-existent index.js
+    "static/frontend/main.js" 
   ],
   "types": [
     "typePatches"
