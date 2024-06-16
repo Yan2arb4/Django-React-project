@@ -6,8 +6,7 @@
 # Run this script in an empty directory
 # If an error occurs, fix the error, delete the folder, and re-run this script
 # Watch out for leftover hidden files
-# This scripts curls from https://github.com/techwithtim/Music-Controller-Web-App-Tutorial/tree/main and
-# https://github.com/Yan2arb4/Django-React-project/tree/main
+# This scripts downloads from https://github.com/Yan2arb4/Django-React-project/tree/main
 
 set -euo pipefail
 
@@ -44,11 +43,12 @@ else
 fi
 
 # Download and install requirements
-curl -o requirements.txt https://raw.githubusercontent.com/techwithtim/Music-Controller-Web-App-Tutorial/main/requirements.txt
+curl -o requirements.txt https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/requirements.txt
 pip install -r requirements.txt
 
 # Download .gitignore
-curl -o .gitignore https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/.gitignore
+
+curl -o ../../.gitignore https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/.gitignore
 
 # Create Django project and apps
 django-admin startproject "$APPNAME"
@@ -58,7 +58,7 @@ django-admin startapp frontend
 
 # Setup frontend
 cd frontend #All lines under happen from this folder
-curl -o package.json https://raw.githubusercontent.com/techwithtim/Music-Controller-Web-App-Tutorial/main/Tutorial%201%20-%204/frontend/package.json
+curl -o package.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/package.json
 npm install
 
 # Install typescript
@@ -66,52 +66,20 @@ npm install typescript @types/react @types/react-dom @babel/preset-typescript --
 npm install ts-loader --save-dev
 
 # Create tsconfig.json for TypeScript configuration
-cat <<EOT > tsconfig.json
-{
-  "compilerOptions": {
-    "outDir": "build/dist",
-    "module": "commonjs",
-    "strict": true,
-    "target": "es6",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "allowJs": true,
-    "jsx": "react",
-    "moduleResolution": "node",
-    "rootDir": "src",
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true
-  },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ],
-  "types": [
-    "typePatches"
-  ]
-}
-EOT
+curl -o tsconfig.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/tsconfig.json
 
 # Add webpack config
-curl -o webpack.config.js https://raw.githubusercontent.com/techwithtim/Music-Controller-Web-App-Tutorial/main/Tutorial%201%20-%204/frontend/webpack.config.js
+curl -o webpack.config.js https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/webpack.config.js
 
 # Setup urls.py files in both api and frontends apps
 touch urls.py
 touch ../api/urls.py
 
-curl -o babel.config.json https://raw.githubusercontent.com/techwithtim/Music-Controller-Web-App-Tutorial/main/Tutorial%201%20-%204/frontend/babel.config.json
+curl -o babel.config.json https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/babel.config.json
 
 # Setup Templates 
 mkdir -p templates/frontend
-curl -o ./templates/frontend/index.html https://raw.githubusercontent.com/techwithtim/Music-Controller-Web-App-Tutorial/main/Tutorial%201%20-%204/frontend/templates/frontend/index.html
+curl -o ./templates/frontend/index.html https://raw.githubusercontent.com/Yan2arb4/Django-React-project/main/React-Django/Tutorial/music_controller/frontend/templates/frontend/index.html
 
 # Setup static with children
 mkdir -p static/css static/frontend
@@ -121,7 +89,8 @@ touch static/css/index.css
 mkdir -p src/components
 touch src/components/App.tsx
 
-echo 'import App from "./components/App";' > src/index.js
+echo 'import App from "./components/App";' > src/index.tsx
+#curl -o src/index.tsx 
 
 echo "Project setup completed successfully."
 read -p "Press any key to continue..."
