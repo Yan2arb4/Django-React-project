@@ -1,16 +1,37 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Grid, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+interface CreateRoomProps {
+}
 
-
-const CreateRoomPage: React.FC = () => {
+const CreateRoomPage: React.FC<CreateRoomProps> = () => {
     const [guestCanPause, setGuestCanPause] = useState(true);
     const [defaultVotes, setDefaultVotes] = useState<number>(2);
     const [votesToSkip, setVotesToSkip] = useState(defaultVotes);
 
-    const handleVotesChange = () => {
-        
+    const handleVotesChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = parseInt(e.target.value);
+        setVotesToSkip(value);
+    };
+
+    const handleGuestCanPauseChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setGuestCanPause(guestCanPause == true ? false : true);
+    }
+
+    const handleRoomButtonPressed = () => {
+        //console.log("Current State - guestCanPause:", guestCanPause, "votesToSkip:", votesToSkip);
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                votes_to_skip: votesToSkip,
+                guest_can_pause: guestCanPause
+            }),
+        };
+        fetch('/api/create-room', requestOptions)
+            .then((response) => response.json())
+            .then((data) => console.log(data));
     }
 
     return (
@@ -29,24 +50,24 @@ const CreateRoomPage: React.FC = () => {
                     </FormHelperText>
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item>
-                            <RadioGroup row defaultValue="true">
-                                <FormControlLabel 
-                                    value="true" 
-                                    control={<Radio color='primary'/>}
-                                    label="Play/Pause"
-                                    labelPlacement='bottom'
-                                />
-                            </RadioGroup>
-                        </Grid>
-                        <Grid item>
-                            <RadioGroup row defaultValue="true">
-                                <FormControlLabel 
-                                    value="false" 
-                                    control={<Radio color='secondary'/>}
-                                    label="No Control"
-                                    labelPlacement='bottom'
-                                />
-                            </RadioGroup>
+                        <RadioGroup
+                            row
+                            defaultValue="true"
+                            onChange={handleGuestCanPauseChange}
+                            >
+                            <FormControlLabel
+                                value="true"
+                                control={<Radio color="primary" />}
+                                label="Play/Pause"
+                                labelPlacement="bottom"
+                            />
+                            <FormControlLabel
+                                value="false"
+                                control={<Radio color="secondary" />}
+                                label="No Control"
+                                labelPlacement="bottom"
+                            />
+                        </RadioGroup>
                         </Grid>
                     </Grid>
                 </FormControl>
@@ -57,6 +78,7 @@ const CreateRoomPage: React.FC = () => {
                         required 
                         type="number"
                         defaultValue={defaultVotes}
+                        onChange={handleVotesChange}
                         inputProps={{
                             min: 1,
                             style: {textAlign: "center"},
@@ -68,7 +90,7 @@ const CreateRoomPage: React.FC = () => {
                 </FormControl>
             </Grid>
             <Grid item xs={12} textAlign="center">
-                <Button color='primary' variant='contained'>
+                <Button color='primary' variant='contained' onClick={handleRoomButtonPressed}>
                     Create A Room
                 </Button>
             </Grid>
