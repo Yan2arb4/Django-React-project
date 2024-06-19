@@ -64,6 +64,31 @@ npm install
 
 Remember to replace `<project_name>` and `<project_path>` with your own values.
 
+## How to run the project
+Before running the project, ensure you have completed the setup steps mentioned above.
+
+1. Apply Migrations:
+
+```bash
+python manage.py migrate
+```
+This command applies any pending migrations to your database.
+
+2. Run the Django Server:
+
+```bash
+python manage.py runserver
+```
+This starts the Django development server. The output will give a url you can open.
+
+3. Run the Frontend Development Server:
+Navigate to the frontend directory of your project where package.json is located.
+
+```bash
+npm run dev
+```
+This command starts the frontend development server.
+
 ## Credits
 
 [TechWithTim](https://www.youtube.com/@TechWithTim) for the project.
