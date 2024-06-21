@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Grid, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface CreateRoomProps {
 }
@@ -9,6 +9,7 @@ const CreateRoomPage: React.FC<CreateRoomProps> = () => {
     const [guestCanPause, setGuestCanPause] = useState(true);
     const [defaultVotes, setDefaultVotes] = useState<number>(2);
     const [votesToSkip, setVotesToSkip] = useState(defaultVotes);
+    const navigate = useNavigate();
 
     const handleVotesChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
@@ -29,9 +30,11 @@ const CreateRoomPage: React.FC<CreateRoomProps> = () => {
                 guest_can_pause: guestCanPause
             }),
         };
-        fetch('/api/create-room', requestOptions)
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+        fetch("/api/create-room", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          navigate("/room/" + data.code);
+        });
     }
 
     return (

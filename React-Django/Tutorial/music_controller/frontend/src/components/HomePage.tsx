@@ -13,9 +13,9 @@ const HomePage: React.FC = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<h1>THIS IS THE HOME PAGE</h1>}/>
-                <Route path="/join" Component={RoomJoinPage}></Route>
-                <Route path="/create" Component={CreateRoomPage}></Route>
-                <Route path="/room/:roomCode" Component={Room}></Route>
+                <Route path="/join" element={<RoomJoinPage />} />
+                <Route path="/create" element={<CreateRoomPage />} />
+                <Route path="/room/:roomCode" element={<Room />} />
             </Routes>
         </Router>
     );
