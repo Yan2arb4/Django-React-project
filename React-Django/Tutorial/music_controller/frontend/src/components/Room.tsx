@@ -1,8 +1,7 @@
-import React, { ChangeEvent, useState, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-interface RoomProps {
-}
+interface RoomProps {}
 
 const Room: React.FC<RoomProps> = () => {
     const [guestCanPause, setGuestCanPause] = useState(true);
@@ -11,18 +10,19 @@ const Room: React.FC<RoomProps> = () => {
     const [isHost, setIsHost] = useState(false);
     let { roomCode } = useParams();
 
-    const getRoomDetails = () => {
-        fetch('api/get-room' + '?code=' + roomCode).then((response) => 
-            response.json()
-        ).then((data) => {
-            setVotesToSkip(data.votes_to_skip);
-            setGuestCanPause(data.guest_can_pause);
-            setIsHost(data.is_host);
-        });
-    }
+    useEffect(() => {
+        const getRoomDetails = () => {
+            fetch('/api/get-room?code=' + roomCode)
+                .then((response) => response.json())
+                .then((data) => {
+                    setVotesToSkip(data.votes_to_skip);
+                    setGuestCanPause(data.guest_can_pause);
+                    setIsHost(data.is_host);
+                });
+        };
 
-    getRoomDetails();
-
+        getRoomDetails();
+    }, [roomCode]);
 
     return (
         <div>
@@ -33,6 +33,6 @@ const Room: React.FC<RoomProps> = () => {
             <p>Host: {isHost.toString()}</p>
         </div>
     );
-}
+};
 
 export default Room;
