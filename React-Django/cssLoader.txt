@@ -1,3 +1,9 @@
+CSS Loader
+
+npm install --save-dev style-loader css-loader
+
+webpack.config.js
+
 const path = require("path");
 const webpack = require("webpack");
 
@@ -36,3 +42,5 @@ module.exports = {
   ],
   mode: 'production'
 };
+
+
