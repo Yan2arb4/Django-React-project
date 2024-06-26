@@ -1,24 +1,57 @@
-import React from 'react'
-import RoomJoinPage from "./RoomJoinPage";
-import CreateRoomPage from "./CreateRoomPage";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { TextField, Button, Grid, Typography, ButtonGroup } from '@mui/material';
+import RoomJoinPage from './RoomJoinPage';
+import CreateRoomPage from './CreateRoomPage';
 import Room from './Room';
-import { BrowserRouter as Router, Routes, Route, Link, redirect } from 'react-router-dom';
-
-interface HomePageProps{
-
-}
 
 const HomePage: React.FC = () => {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<h1>THIS IS THE HOME PAGE</h1>}/>
-                <Route path="/join" element={<RoomJoinPage />} />
-                <Route path="/create" element={<CreateRoomPage />} />
-                <Route path="/room/:roomCode" element={<Room />} />
-            </Routes>
-        </Router>
-    );
-}
+  const [roomCode, setRoomCode] = useState<string>("");
 
-export default HomePage
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/api/user-in-room');
+      const data = await response.json();
+      setRoomCode(data.code);
+    };
+    fetchData();
+  }, []);
+
+  const renderHomePage = () => {
+    return (
+      <Grid container spacing={3}>
+        <Grid item xs={12} alignContent="center">
+          <Typography variant="h3" component="h3">
+            House Party
+          </Typography>
+        </Grid>
+        <Grid item xs={12} alignContent="center">
+          <ButtonGroup disableElevation variant="contained" color="primary">
+            <Button color="primary" to="/join" component={Link}>
+              Join a Room
+            </Button>
+            <Button color="secondary" to="/create" component={Link}>
+              Create a Room
+            </Button>
+          </ButtonGroup>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={roomCode ? <Navigate to={`/room/${roomCode}`} /> : renderHomePage()}
+        />
+        <Route path="/join" element={<RoomJoinPage />} />
+        <Route path="/create" element={<CreateRoomPage />} />
+        <Route path="/room/:roomCode" element={<Room />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default HomePage;

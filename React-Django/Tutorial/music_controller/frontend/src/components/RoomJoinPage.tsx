@@ -62,7 +62,7 @@ const RoomJoinPage: React.FC<RoomJoinPageProps> = () => {
                 </Button>
             </Grid>
             <Grid item xs={12} textAlign="center">
-                <Button variant='contained' color='secondary' LinkComponent={Link}>
+                <Button color='secondary' variant='contained' to="/" component={Link}>
                     Back
                 </Button>
             </Grid>
