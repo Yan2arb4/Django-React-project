@@ -39,6 +39,10 @@ const HomePage: React.FC = () => {
     );
   };
 
+  const clearRoomCode = () => {
+    setRoomCode("");
+  }
+
   return (
     <Router>
       <Routes>
@@ -48,7 +52,10 @@ const HomePage: React.FC = () => {
         />
         <Route path="/join" element={<RoomJoinPage />} />
         <Route path="/create" element={<CreateRoomPage />} />
-        <Route path="/room/:roomCode" element={<Room />} />
+        <Route
+          path="/room/:roomCode"
+          element={<Room leaveRoomCallback={clearRoomCode} />}
+        />
       </Routes>
     </Router>
   );
