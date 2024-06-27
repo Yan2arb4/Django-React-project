@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import '../../static/css/index.css'; 
 
 interface RoomJoinPageProps {}
 
@@ -39,6 +40,7 @@ const RoomJoinPage: React.FC<RoomJoinPageProps> = () => {
             spacing={1}
             alignItems="center"
             justifyContent="center"
+            className='center'
         >
             <Grid item xs={12} textAlign="center">
                 <Typography variant='h4' component="h4">

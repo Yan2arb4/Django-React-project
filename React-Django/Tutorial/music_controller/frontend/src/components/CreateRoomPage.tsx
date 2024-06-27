@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Grid, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import '../../static/css/index.css'; 
 
 interface CreateRoomProps {
 }
@@ -38,20 +39,20 @@ const CreateRoomPage: React.FC<CreateRoomProps> = () => {
     }
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={12} textAlign="center">
+        <Grid container spacing={1} className='center'>
+            <Grid item xs={12}>
                 <Typography variant="h4">
                     Create a room
                 </Typography>
             </Grid>
-            <Grid item xs={12} textAlign="center">
+            <Grid item xs={12}>
                 <FormControl component="fieldset">
                     <FormHelperText>
                         <div>
                             Guest Control of Playback State
                         </div>
                     </FormHelperText>
-                    <Grid container spacing={2} justifyContent="center">
+                    <Grid container spacing={2}>
                         <Grid item>
                         <RadioGroup
                             row
@@ -75,7 +76,7 @@ const CreateRoomPage: React.FC<CreateRoomProps> = () => {
                     </Grid>
                 </FormControl>
             </Grid>
-            <Grid item xs={12} textAlign="center">
+            <Grid item xs={12}>
                 <FormControl> 
                     <TextField
                         required 
@@ -92,12 +93,12 @@ const CreateRoomPage: React.FC<CreateRoomProps> = () => {
                     </FormHelperText>
                 </FormControl>
             </Grid>
-            <Grid item xs={12} textAlign="center">
+            <Grid item xs={12}>
                 <Button color='primary' variant='contained' onClick={handleRoomButtonPressed}>
                     Create A Room
                 </Button>
             </Grid>
-            <Grid item xs={12} textAlign="center">
+            <Grid item xs={12}>
                 <Button color='secondary' variant='contained' to="/" component={Link}>
                     Back
                 </Button>

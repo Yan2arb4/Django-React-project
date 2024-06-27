@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { TextField, Button, Grid, Typography, ButtonGroup } from '@mui/material';
 import RoomJoinPage from './RoomJoinPage';
+import '../../static/css/index.css'; 
 import CreateRoomPage from './CreateRoomPage';
 import Room from './Room';
 
@@ -19,7 +20,7 @@ const HomePage: React.FC = () => {
 
   const renderHomePage = () => {
     return (
-      <Grid container spacing={3}>
+      <Grid container spacing={3} className='center'>
         <Grid item xs={12} alignContent="center">
           <Typography variant="h3" component="h3">
             House Party
