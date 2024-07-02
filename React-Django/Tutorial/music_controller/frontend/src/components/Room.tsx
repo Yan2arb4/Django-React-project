@@ -44,8 +44,9 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
     const renderSettings = () => {
       <Grid container spacing={1} className='center'>
         <Grid item xs={12}>
-
+          <CreateRoomPage></CreateRoomPage>
         </Grid>
+        <Grid item xs={12}></Grid>
       </Grid>
     }
 
