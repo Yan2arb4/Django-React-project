@@ -58,7 +58,7 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
                     color="secondary"
                     onClick={() => updateShowSettings(true)}
                 >
-                    Settings
+                    Settings!
                 </Button>
             </Grid>
         );
