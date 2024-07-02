@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../static/css/index.css'; 
 import { Grid, Button, Typography } from '@mui/material';
+import CreateRoomPage from './CreateRoomPage';
 
 interface RoomProps {
     leaveRoomCallback: () => void;
@@ -11,6 +12,7 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
     const [guestCanPause, setGuestCanPause] = useState(true);
     const [defaultVotes, setDefaultVotes] = useState<number>(2);
     const [votesToSkip, setVotesToSkip] = useState(defaultVotes);
+    const [showSettings, setShowSettings] = useState(false);
     const [isHost, setIsHost] = useState(false);
     let { roomCode } = useParams();
     const navigate = useNavigate();
@@ -34,6 +36,32 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
 
         getRoomDetails();
     }, [roomCode]);
+
+    const updateShowSettings = (value: boolean) => {
+        setShowSettings(value);
+    }
+
+    const renderSettings = () => {
+      <Grid container spacing={1} className='center'>
+        <Grid item xs={12}>
+
+        </Grid>
+      </Grid>
+    }
+
+    const renderSettingsButton = () => {
+        return (
+            <Grid item xs={12}>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => updateShowSettings(true)}
+                >
+                    Settings
+                </Button>
+            </Grid>
+        );
+    }
 
     const leaveButtonPressed = () => {
         const requestOptions = {
@@ -72,6 +100,7 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
               Host: {isHost.toString()}
             </Typography>
           </Grid>
+          { isHost ? renderSettingsButton() : null }
           <Grid item xs={12}>
             <Button color="secondary" variant="contained" onClick={leaveButtonPressed}>
               Leave Room
