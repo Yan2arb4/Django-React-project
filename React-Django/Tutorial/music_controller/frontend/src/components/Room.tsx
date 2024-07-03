@@ -8,7 +8,7 @@ interface RoomProps {
     leaveRoomCallback: () => void;
 }
 
-const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
+const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
     const [guestCanPause, setGuestCanPause] = useState(true);
     const [defaultVotes, setDefaultVotes] = useState<number>(2);
     const [votesToSkip, setVotesToSkip] = useState(defaultVotes);
@@ -21,11 +21,11 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
         const getRoomDetails = () => {
             fetch('/api/get-room?code=' + roomCode)
                 .then((response) => {
-                    if(!response.ok) {
+                    if (!response.ok) {
                         leaveRoomCallback();
                         navigate('/');
                     }
-                    return response.json()
+                    return response.json();
                 })
                 .then((data) => {
                     setVotesToSkip(data.votes_to_skip);
@@ -35,19 +35,31 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
         };
 
         getRoomDetails();
-    }, [roomCode]);
+    }, [roomCode, leaveRoomCallback, navigate]);
 
     const updateShowSettings = (value: boolean) => {
         setShowSettings(value);
     }
 
     const renderSettings = () => {
-      <Grid container spacing={1} className='center'>
-        <Grid item xs={12}>
-          <CreateRoomPage></CreateRoomPage>
-        </Grid>
-        <Grid item xs={12}></Grid>
-      </Grid>
+        return (
+            <Grid container spacing={1} className='center'>
+                <Grid item xs={12}>
+                    <CreateRoomPage 
+                        update={true} 
+                        votesToSkip={votesToSkip} 
+                        guestCanPause={guestCanPause} 
+                        roomCode={roomCode}
+                        updateCallback={() => {}}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button color='secondary' variant='contained' onClick={() => updateShowSettings(false)}>
+                        Close
+                    </Button>
+                </Grid>
+            </Grid>
+        );
     }
 
     const renderSettingsButton = () => {
@@ -68,7 +80,7 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-        }
+        };
         fetch('/api/leave-room', requestOptions).then((_response) => {
             leaveRoomCallback();
             navigate('/');
@@ -76,39 +88,39 @@ const Room: React.FC<RoomProps> = ({leaveRoomCallback}) => {
     };
 
     return (
-        <Grid
-          container
-          spacing={1}
-          className="center"
-        >
-          <Grid item xs={12}>
-            <Typography variant="h4" component="h4">
-              Code: {roomCode?.toString()}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h6">
-              Guest can pause: {guestCanPause.toString()}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h6">
-              Votes to skip: {votesToSkip.toString()}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h6">
-              Host: {isHost.toString()}
-            </Typography>
-          </Grid>
-          { isHost ? renderSettingsButton() : null }
-          <Grid item xs={12}>
-            <Button color="secondary" variant="contained" onClick={leaveButtonPressed}>
-              Leave Room
-            </Button>
-          </Grid>
-        </Grid>
-      );      
+        <>
+            {showSettings ? renderSettings() : (
+                <Grid container spacing={1} className="center">
+                    <Grid item xs={12}>
+                        <Typography variant="h4" component="h4">
+                            Code: {roomCode?.toString()}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h6" component="h6">
+                            Guest can pause: {guestCanPause.toString()}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h6" component="h6">
+                            Votes to skip: {votesToSkip.toString()}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h6" component="h6">
+                            Host: {isHost.toString()}
+                        </Typography>
+                    </Grid>
+                    {isHost ? renderSettingsButton() : null}
+                    <Grid item xs={12}>
+                        <Button color="secondary" variant="contained" onClick={leaveButtonPressed}>
+                            Leave Room
+                        </Button>
+                    </Grid>
+                </Grid>
+            )}
+        </>
+    );      
 };
 
 export default Room;

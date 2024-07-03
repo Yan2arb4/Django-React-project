@@ -4,6 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../static/css/index.css'; 
 
 interface CreateRoomProps {
+    update?: boolean;
+    votesToSkip?: number;
+    guestCanPause?: boolean;
+    roomCode?: string;
+    updateCallback?: () => void;
 }
 
 const CreateRoomPage: React.FC<CreateRoomProps> = () => {
