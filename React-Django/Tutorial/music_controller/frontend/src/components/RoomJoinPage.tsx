@@ -40,7 +40,6 @@ const RoomJoinPage: React.FC<RoomJoinPageProps> = () => {
             spacing={1}
             alignItems="center"
             justifyContent="center"
-            className='center'
         >
             <Grid item xs={12} textAlign="center">
                 <Typography variant='h4' component="h4">

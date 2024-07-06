@@ -44,7 +44,7 @@ const CreateRoomPage: React.FC<CreateRoomProps> = () => {
     }
 
     return (
-        <Grid container spacing={1} className='center'>
+        <Grid container spacing={1}>
             <Grid item xs={12}>
                 <Typography variant="h4">
                     Create a room

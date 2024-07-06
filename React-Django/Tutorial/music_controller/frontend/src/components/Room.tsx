@@ -43,7 +43,7 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
 
     const renderSettings = () => {
         return (
-            <Grid container spacing={1} className='center'>
+            <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <CreateRoomPage 
                         update={true} 
@@ -90,7 +90,7 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
     return (
         <>
             {showSettings ? renderSettings() : (
-                <Grid container spacing={1} className="center">
+                <Grid container spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h4" component="h4">
                             Code: {roomCode?.toString()}

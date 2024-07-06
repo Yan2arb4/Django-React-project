@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
 
   const renderHomePage = () => {
     return (
-      <Grid container spacing={3} className='center'>
+      <Grid container spacing={3}>
         <Grid item xs={12} alignContent="center">
           <Typography variant="h3" component="h3">
             House Party
