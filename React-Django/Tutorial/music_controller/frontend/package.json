@@ -33,6 +33,7 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@mui/lab": "^5.0.0-alpha.171",
     "@mui/material": "^5.15.20",
     "react-router-dom": "^6.23.1"
   }

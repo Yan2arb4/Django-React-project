@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../../static/css/index.css'; 
 import { Grid, Button, Typography } from '@mui/material';
 import CreateRoomPage from './CreateRoomPage';
 
@@ -10,36 +9,39 @@ interface RoomProps {
 
 const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
     const [guestCanPause, setGuestCanPause] = useState(true);
-    const [defaultVotes, setDefaultVotes] = useState<number>(2);
-    const [votesToSkip, setVotesToSkip] = useState(defaultVotes);
+    const [votesToSkip, setVotesToSkip] = useState<number>(2);
     const [showSettings, setShowSettings] = useState(false);
     const [isHost, setIsHost] = useState(false);
     let { roomCode } = useParams();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const getRoomDetails = () => {
-            fetch('/api/get-room?code=' + roomCode)
-                .then((response) => {
-                    if (!response.ok) {
-                        leaveRoomCallback();
-                        navigate('/');
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    setVotesToSkip(data.votes_to_skip);
-                    setGuestCanPause(data.guest_can_pause);
-                    setIsHost(data.is_host);
-                });
-        };
+    const getRoomDetails = () => {
+        fetch('/api/get-room?code=' + roomCode)
+            .then((response) => {
+                if (!response.ok) {
+                    leaveRoomCallback();
+                    navigate('/');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setVotesToSkip(data.votes_to_skip);
+                setGuestCanPause(data.guest_can_pause);
+                setIsHost(data.is_host);
+            });
+    };
 
+    useEffect(() => {
         getRoomDetails();
     }, [roomCode, leaveRoomCallback, navigate]);
 
     const updateShowSettings = (value: boolean) => {
         setShowSettings(value);
-    }
+    };
+
+    const updateRoomDetails = () => {
+        getRoomDetails(); // Call getRoomDetails to fetch updated room details
+    };
 
     const renderSettings = () => {
         return (
@@ -50,7 +52,7 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
                         votesToSkip={votesToSkip} 
                         guestCanPause={guestCanPause} 
                         roomCode={roomCode}
-                        updateCallback={() => {}}
+                        updateCallback={updateRoomDetails} // Pass updateRoomDetails as updateCallback
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -60,7 +62,7 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
                 </Grid>
             </Grid>
         );
-    }
+    };
 
     const renderSettingsButton = () => {
         return (
@@ -74,7 +76,7 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
                 </Button>
             </Grid>
         );
-    }
+    };
 
     const leaveButtonPressed = () => {
         const requestOptions = {
