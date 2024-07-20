@@ -14,6 +14,7 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
     const [isHost, setIsHost] = useState(false);
     let { roomCode } = useParams();
     const navigate = useNavigate();
+    const [spotifyAuthenticated, setSpotifyAuthenticated] = useState(false);
 
     const getRoomDetails = () => {
         fetch('/api/get-room?code=' + roomCode)
@@ -28,8 +29,27 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
                 setVotesToSkip(data.votes_to_skip);
                 setGuestCanPause(data.guest_can_pause);
                 setIsHost(data.is_host);
+                if (isHost) {
+                    authenticateSpotify();
+                }
             });
     };
+
+    
+    const authenticateSpotify = () => {
+        fetch('/spotify/is-authenticated')
+            .then((response) => response.json())
+            .then((data) => {
+                setSpotifyAuthenticated(data.status);
+                if (!data.status) {
+                    fetch('/spotify/get-auth-url')
+                        .then((response) => response.json())
+                        .then((data) => {
+                            window.location.replace(data.url);
+                        });
+                }
+            });
+    }
 
     useEffect(() => {
         getRoomDetails();
