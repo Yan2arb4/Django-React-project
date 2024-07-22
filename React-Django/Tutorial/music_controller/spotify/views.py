@@ -1,10 +1,13 @@
 import os
+from dotenv import load_dotenv # type: ignore
 from django.shortcuts import redirect, render
 from rest_framework.views import APIView
 from requests import Request, post # type: ignore
 from rest_framework import status
 from rest_framework.response import Response
 from .util import is_spotify_authenticated, update_or_create_user_tokens
+
+load_dotenv()
 
 # Create your views here.
 class AuthURL(APIView):

@@ -40,9 +40,18 @@ const CreateRoomPage: React.FC<CreateRoomProps> = (props) => {
         fetch("/api/create-room", requestOptions)
         .then((response) => response.json())
         .then((data) => {
-            navigate("/room/" + data.code);
+            navigate("/room/" + data.code); // Redirect to the newly created room
+            authenticateSpotify();
         });
     }
+
+    const authenticateSpotify = () => {
+        fetch("/spotify/get-auth-url")
+            .then((response) => response.json())
+            .then((data) => {
+                window.location.replace(data.url); // Redirect to Spotify authentication URL
+            });
+    };
 
     const handleUpdateButtonPressed = () => {
         const requestOptions = {
@@ -105,8 +114,8 @@ const CreateRoomPage: React.FC<CreateRoomProps> = (props) => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <Collapse in={errorMsg != "" || successMsg != ""}>
-                    {successMsg != "" ? (
+                <Collapse in={errorMsg !== "" || successMsg !== ""}>
+                    {successMsg !== "" ? (
                         <Alert severity="success" onClose={() => setSuccessMsg("")}>
                             {successMsg}
                         </Alert>

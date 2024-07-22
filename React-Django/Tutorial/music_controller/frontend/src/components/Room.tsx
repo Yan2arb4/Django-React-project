@@ -30,26 +30,28 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
                 setGuestCanPause(data.guest_can_pause);
                 setIsHost(data.is_host);
                 if (isHost) {
+                    console.log(data.is_host);
                     authenticateSpotify();
                 }
             });
     };
 
-    
     const authenticateSpotify = () => {
-        fetch('/spotify/is-authenticated')
-            .then((response) => response.json())
-            .then((data) => {
-                setSpotifyAuthenticated(data.status);
-                if (!data.status) {
-                    fetch('/spotify/get-auth-url')
-                        .then((response) => response.json())
-                        .then((data) => {
-                            window.location.replace(data.url);
-                        });
-                }
-            });
-    }
+        fetch("/spotify/is-authenticated")
+          .then((response) => response.json())
+          .then((data) => {
+            setSpotifyAuthenticated(data.status);
+            console.log(data.status);
+            console.log(`balls`);
+            if (!data.status) {
+              fetch("/spotify/get-auth-url")
+                .then((response) => response.json())
+                .then((data) => {
+                  window.location.replace(data.url);
+                });
+            }
+          });
+      }
 
     useEffect(() => {
         getRoomDetails();
@@ -87,62 +89,24 @@ const Room: React.FC<RoomProps> = ({ leaveRoomCallback }) => {
     const renderSettingsButton = () => {
         return (
             <Grid item xs={12}>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => updateShowSettings(true)}
-                >
-                    Settings!
+                <Button color='primary' variant='contained' onClick={() => updateShowSettings(true)}>
+                    Settings
                 </Button>
             </Grid>
         );
     };
 
-    const leaveButtonPressed = () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        };
-        fetch('/api/leave-room', requestOptions).then((_response) => {
-            leaveRoomCallback();
-            navigate('/');
-        });
-    };
-
     return (
-        <>
-            {showSettings ? renderSettings() : (
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <Typography variant="h4" component="h4">
-                            Code: {roomCode?.toString()}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="h6" component="h6">
-                            Guest can pause: {guestCanPause.toString()}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="h6" component="h6">
-                            Votes to skip: {votesToSkip.toString()}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="h6" component="h6">
-                            Host: {isHost.toString()}
-                        </Typography>
-                    </Grid>
-                    {isHost ? renderSettingsButton() : null}
-                    <Grid item xs={12}>
-                        <Button color="secondary" variant="contained" onClick={leaveButtonPressed}>
-                            Leave Room
-                        </Button>
-                    </Grid>
-                </Grid>
-            )}
-        </>
-    );      
+        <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <Typography variant="h4" component="h4">
+                    Room Code: {roomCode}
+                </Typography>
+            </Grid>
+            {isHost ? renderSettingsButton() : null}
+            {showSettings ? renderSettings() : null}
+        </Grid>
+    );
 };
 
 export default Room;

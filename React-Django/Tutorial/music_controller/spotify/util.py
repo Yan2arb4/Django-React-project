@@ -1,7 +1,11 @@
 import os
+from dotenv import load_dotenv # type: ignore
 from .models import SpotifyToken
 from django.utils import timezone
 from requests import post  # type: ignore
+
+
+load_dotenv()
 
 def update_or_create_user_tokens(user , access_token, token_type, expires_in, refresh_token):
     tokens = get_user_tokens(user)
